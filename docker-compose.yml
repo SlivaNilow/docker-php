@@ -1,0 +1,90 @@
+version: '3.0'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      args:
+         NGINX_VERSION: $NGINX_VERSION
+    environment:
+      TZ: ${WORKSPACE_TIMEZONE}
+      PROJECT_NAME: ${PROJECT_NAME}
+    volumes:
+      - ../source:/app
+    container_name: ${PROJECT_NAME}-nginx
+    restart: always
+    ports:
+      - "80:80"
+
+  php-fpm:
+    build:
+      context: ./php-fpm
+      args:
+        PHP_VERSION: $PHP_VERSION
+        TZ: ${WORKSPACE_TIMEZONE}
+    volumes:
+      - ./.ssh:/home/www-data/.ssh
+      - ./php-ini/php.ini:/usr/local/etc/php/php.ini
+      - ../source:/app
+    container_name: ${PROJECT_NAME}-php-fpm
+    depends_on:
+      - mysql
+
+#  php-cli:
+#    build:
+#      context: ./php-cli
+#      args:
+#         PHP_VERSION: $PHP_VERSION
+#         TZ: ${WORKSPACE_TIMEZONE}
+#    volumes:
+#      - ./.ssh:/home/www-data/.ssh
+#      - ../source:/app
+#      - ./php-ini/php.ini:/usr/local/etc/php/php.ini
+#    command: sleep 10000
+#    container_name: ${PROJECT_NAME}-php-cli
+
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password --skip_name_resolve
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/conf.d:/etc/mysql/conf.d
+      - ./mysql/logs:/var/log/mysql/
+      - ./mysql/dump:/dump
+    container_name: ${PROJECT_NAME}-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: ${WORKSPACE_TIMEZONE}
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ${PROJECT_NAME}-pma
+    links:
+      - ${PROJECT_NAME}-mysql
+    environment:
+      PMA_HOST: ${PROJECT_NAME}-mysql
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+      PMA_ARBITRARY: 1
+      TZ: ${WORKSPACE_TIMEZONE}
+    restart: always
+    ports:
+      - "8081:80"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "${REDIS_PORT}:6379"
+    container_name: ${PROJECT_NAME}-redis
+    volumes:
+      - ./redis/data:/var/lib/redis
+      - ./redis/conf:/usr/local/etc/redis/redis.conf
+    environment:
+      TZ: ${WORKSPACE_TIMEZONE}
+
+volumes:
+  mysql:

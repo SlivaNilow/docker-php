@@ -1,0 +1,9 @@
+.idea
+mysql/data/*
+!mysql/data/.gitkeep
+mysql/dump/*
+!mysql/dump/.gitkeep
+mysql/logs/*
+!mysql/logs/.gitkeep
+redis/data/*
+!redis/data/.gitkeep

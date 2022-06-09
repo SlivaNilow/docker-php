@@ -4,7 +4,7 @@ server {
     error_log /var/log/nginx/error.log;
     access_log /var/log/nginx/access.log;
     root /app/dev/public;
-    server_name dev.${PROJECT_NAME}.local
+    server_name dev.${PROJECT_NAME}.lc
 
     client_max_body_size 128m;
 
@@ -33,7 +33,7 @@ server {
     error_log /var/log/nginx/error.log;
     access_log /var/log/nginx/access.log;
     root /app/stage/public;
-    server_name stage.${PROJECT_NAME}.local
+    server_name stage.${PROJECT_NAME}.lc
 
     client_max_body_size 128m;
 
@@ -62,7 +62,7 @@ server {
     error_log /var/log/nginx/error.log;
     access_log /var/log/nginx/access.log;
     root /app/prod/public;
-    server_name prod.${PROJECT_NAME}.local
+    server_name prod.${PROJECT_NAME}.lc
 
     client_max_body_size 128m;
 
@@ -90,8 +90,8 @@ server {
     index index.php index.html;
     error_log /var/log/nginx/error.log;
     access_log /var/log/nginx/access.log;
-    root /app/prod/public;
-    server_name frontend.${PROJECT_NAME}.local
+    root /app/frontend/dist;
+    server_name frontend.${PROJECT_NAME}.lc
 
     client_max_body_size 128m;
 

@@ -8,7 +8,7 @@ services:
       TZ: ${WORKSPACE_TIMEZONE}
       PROJECT_NAME: ${PROJECT_NAME}
     volumes:
-      - /nginx/templates:/etc/nginx/templates
+      - /nginx/conf.d:/etc/nginx/conf.d
       - /nginx/entrypoint:/docker-entrypoint
       - ../source:/app
 #    entrypoint: /docker-entrypoint/entrypoint.sh

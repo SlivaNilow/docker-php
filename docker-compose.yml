@@ -21,8 +21,8 @@ services:
       context: ./php-fpm
       args:
         PHP_VERSION: $PHP_VERSION
-        TZ: ${WORKSPACE_TIMEZONE}
-    image: my-php-fpm:${PHP_VERSION}
+        TZ: ${WORKSPACE_TIMEZONE}d
+    image: my-php-fpm-${PHP_VERSION}-$PHP_VERSION
     volumes:
       - ./.ssh:/home/www-data/.ssh
       - ./php-ini/php.ini:/usr/local/etc/php/php.ini

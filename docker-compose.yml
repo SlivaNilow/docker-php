@@ -9,6 +9,7 @@ services:
       PROJECT_NAME: ${PROJECT_NAME}
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/logs:/nginx-logs
       - ../source:/app
     working_dir: /app
     container_name: ${PROJECT_NAME}-nginx

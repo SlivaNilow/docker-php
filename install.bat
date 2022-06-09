@@ -1,5 +1,8 @@
 @echo off
 echo "installation start"
+cd /D "%~dp0"
+echo %cd%
+pause
 set /p projectName="Enter projectName(new-project default): "
 IF NOT DEFINED projectName SET "projectName=new-project"
 echo %projectName%
@@ -59,15 +62,15 @@ git worktree add frontend frontend
 cd prod
 mkdir public
 cd public
-echo ^<? phpinfo(); > index.php
+echo ^<^? phpinfo(); > index.php
 cd ../../dev
 mkdir public
 cd public
-echo ^<? phpinfo(); > index.php
+echo ^<^? phpinfo(); > index.php
 cd ../../stage
 mkdir public
 cd public
-echo ^<? phpinfo(); > index.php
+echo ^<^? phpinfo(); > index.php
 
 cd ../../frontend
 mkdir dist
@@ -121,5 +124,12 @@ type .env.tmp > .env
 del .env.tmp
 
 docker-compose up -d --build
+
+cd /D C:\Windows\System32\drivers\etc
+
+echo 127.0.0.1 dev.%projectName%.lc >> hosts
+echo 127.0.0.1 stage.%projectName%.lc >> hosts
+echo 127.0.0.1 prod.%projectName%.lc >> hosts
+echo 127.0.0.1 frontend.%projectName%.lc >> hosts
 
 pause

@@ -9,8 +9,9 @@ services:
       PROJECT_NAME: ${PROJECT_NAME}
     volumes:
       - /nginx/templates:/etc/nginx/templates
+      - /nginx/entrypoint:/docker-entrypoint
       - ../source:/app
-    entrypoint: /nginx/entrypoint.sh
+    entrypoint: /docker-entrypoint/entrypoint.sh
     working_dir: /app
     container_name: ${PROJECT_NAME}-nginx
     restart: always

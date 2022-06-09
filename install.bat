@@ -16,6 +16,8 @@ mkdir %projectName%
 cd %projectName%
 
 
+
+
 mkdir docker
 mkdir docs
 mkdir source
@@ -54,20 +56,26 @@ git checkout -b frontend
 git checkout master
 git worktree add frontend frontend
 
-cd frontend
+cd prod
+mkdir public
+cd public
+echo ^<? phpinfo(); > index.php
+cd ../../dev
+mkdir public
+cd public
+echo ^<? phpinfo(); > index.php
+cd ../../stage
+mkdir public
+cd public
+echo ^<? phpinfo(); > index.php
+
+cd ../../frontend
 mkdir dist
 mkdir src
-echo RewriteEngine On > .htaccess
-echo RewriteBase / >> .htaccess
-echo RewriteCond %{THE_REQUEST} /dist/([^\s?]*) [NC] >> .htaccess
-echo RewriteRule ^ %1 [L,NE,R=302] >> .htaccess
-echo RewriteRule ^((?!dist/).*)$ dist/$1 [L,NC] >> .htaccess
 
 call npm init -y
 call npm install laravel-mix --save-dev
 call npm install normalize.css
-REM call npm install jquery
-REM call npm install swiper
 
 REM npm v8
 call npm pkg set scripts.dev="npm run development"
@@ -79,6 +87,7 @@ echo const mix = require('laravel-mix'); > webpack.mix.js
 echo mix.options({ processCssUrls: false }) >> webpack.mix.js
 echo mix.js('src/js/app.js', 'dist/js') >> webpack.mix.js
 echo     .sass('src/scss/app.scss', 'dist/css'); >> webpack.mix.js
+
 
 cd src
 mkdir js
@@ -95,7 +104,7 @@ mkdir img
 mkdir fonts
 copy NUL index.php
 
-cd ../../../docker  
+cd ../../../docker
 
 call git clone https://github.com/gelid/docker-php.git .
 call git remote remove origin
@@ -112,7 +121,5 @@ type .env.tmp > .env
 del .env.tmp
 
 docker-compose up -d --build
-
-
 
 pause

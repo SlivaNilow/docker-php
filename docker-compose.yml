@@ -8,10 +8,8 @@ services:
       TZ: ${WORKSPACE_TIMEZONE}
       PROJECT_NAME: ${PROJECT_NAME}
     volumes:
-      - /nginx/conf.d:/etc/nginx/conf.d
-      - /nginx/entrypoint:/docker-entrypoint
+      - ./nginx/conf.d:/etc/nginx/conf.d
       - ../source:/app
-#    entrypoint: /docker-entrypoint/entrypoint.sh
     working_dir: /app
     container_name: ${PROJECT_NAME}-nginx
     restart: always

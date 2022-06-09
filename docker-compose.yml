@@ -64,7 +64,7 @@ services:
     image: phpmyadmin/phpmyadmin
     container_name: ${PROJECT_NAME}-pma
     links:
-      - ${PROJECT_NAME}-mysql
+      - mysql
     environment:
       PMA_HOST: ${PROJECT_NAME}-mysql
       PMA_USER: ${MYSQL_USER}

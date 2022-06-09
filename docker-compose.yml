@@ -2,15 +2,16 @@ version: '3.0'
 
 services:
   nginx:
-    build:
-      context: ./nginx
-      args:
-         NGINX_VERSION: $NGINX_VERSION
+    image: nginx:$NGINX_VERSION
+    command: [ nginx, "-g", "daemon off;" ]
     environment:
       TZ: ${WORKSPACE_TIMEZONE}
       PROJECT_NAME: ${PROJECT_NAME}
     volumes:
+      - /nginx/templates:/etc/nginx/templates
       - ../source:/app
+    entrypoint: /nginx/entrypoint.sh
+    working_dir: /app
     container_name: ${PROJECT_NAME}-nginx
     restart: always
     ports:

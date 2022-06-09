@@ -11,7 +11,7 @@ services:
       - /nginx/templates:/etc/nginx/templates
       - /nginx/entrypoint:/docker-entrypoint
       - ../source:/app
-    entrypoint: /docker-entrypoint/entrypoint.sh
+#    entrypoint: /docker-entrypoint/entrypoint.sh
     working_dir: /app
     container_name: ${PROJECT_NAME}-nginx
     restart: always
